@@ -23,7 +23,20 @@ public class BookServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		String strBookId = request.getParameter("bookId");
+		int bookId = 0;
+		
+		if(strBookId != null) {
+			try {
+				bookId = Integer.parseInt(strBookId);
+			} catch (NumberFormatException e) {
+				response.setContentType("text/plain");
+				response.setStatus(400);
+				response.getWriter().println("잘못된 형식의 데이터입니다.");
+				return;
+			}
+		}
+		
 		Book book = bookService.getBook(bookId);
 		
 		response.setContentType("text/plain");

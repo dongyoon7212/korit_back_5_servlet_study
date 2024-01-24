@@ -2,7 +2,6 @@ package com.study.servlet_study.entity;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.ToString;
 
 @Builder
 @Data

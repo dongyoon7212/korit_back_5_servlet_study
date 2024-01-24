@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.study.servlet_study.config.DBConnectionMgr;
 import com.study.servlet_study.entity.Author;
@@ -120,4 +124,56 @@ public class BookRepository {
 		
 		return findBook;
 	}
+	
+	public List<Book> searchBookList(Map<String, String> params) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Book> bookList = new ArrayList<>();
+		
+		Map<String, String> keyData = new HashMap<>();
+		keyData.put("bookName", "book_name");
+		keyData.put("authorName", "author_name");
+		keyData.put("publisherName", "publisher_name");
+
+		
+		try {
+			con = pool.getConnection();
+			String sql = "select * from book_tb where ? = 1";
+			for (String key : params.keySet()) {
+				sql += " or " + keyData.get(key) + " like ?";
+			}
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,  params.isEmpty() ? 1 : 0);
+			
+			int i = 2;
+			for(String key : params.keySet()) {
+				pstmt.setString(i, "%" + params.get(key) + "%");
+				i++;
+			}
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Book book = Book.builder()
+						.bookId(rs.getInt(1))
+						.bookName(rs.getString(2))
+						.author(Author.builder()
+								.authorId(rs.getInt(3))
+								.authorName(rs.getString(4))
+								.build())
+						.publisher(Publisher.builder()
+								.publisherId(rs.getInt(5))
+								.publisherName(rs.getString(6))
+								.build())
+						.build();
+				bookList.add(book);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return bookList;
+	}
+	
 }
