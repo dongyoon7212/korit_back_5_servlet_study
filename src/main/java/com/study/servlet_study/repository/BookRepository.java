@@ -25,6 +25,7 @@ public class BookRepository {
 		return instance;
 	}
 	
+	// doPost의 책 추가 로직
 	public int saveBook(Book book) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -82,6 +83,7 @@ public class BookRepository {
 		return 1;
 	}
 	
+	// doGet의 책 찾기 로직
 	public Book findBookByBookId(int bookId) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
