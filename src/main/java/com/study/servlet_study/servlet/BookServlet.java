@@ -23,6 +23,12 @@ public class BookServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int bookId = Integer.parseInt(request.getParameter("bookId"));
+		Book book = bookService.getBook(bookId);
+		
+		response.setContentType("text/plain");
+		response.setStatus(200);
+		response.getWriter().println(book);
 		
 	}
 

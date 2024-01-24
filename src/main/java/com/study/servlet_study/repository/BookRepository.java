@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import com.study.servlet_study.config.DBConnectionMgr;
+import com.study.servlet_study.entity.Author;
 import com.study.servlet_study.entity.Book;
+import com.study.servlet_study.entity.Publisher;
 
 public class BookRepository {
 	private static BookRepository instance;
@@ -78,5 +80,42 @@ public class BookRepository {
 		}
 		
 		return 1;
+	}
+	
+	public Book findBookByBookId(int bookId) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Book findBook =null;
+		
+		try {
+			con = pool.getConnection();
+			String sql = "select * from book_view where book_id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, bookId);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				findBook = Book.builder()
+						.bookId(rs.getInt(1))
+						.bookName(rs.getString(2))
+						.author(Author.builder()
+								.authorId(rs.getInt(3))
+								.authorName(rs.getString(4))
+								.build())
+						.publisher(Publisher.builder()
+								.publisherId(rs.getInt(5))
+								.publisherName(rs.getString(6))
+								.build())
+						.build();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		
+		return findBook;
 	}
 }

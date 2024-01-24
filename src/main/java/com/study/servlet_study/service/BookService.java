@@ -22,4 +22,8 @@ public class BookService {
 		return bookRepository.saveBook(book) > 0;
 	}
 	
+	public Book getBook(int bookId) {
+		return bookRepository.findBookByBookId(bookId);
+	}
+	
 }
