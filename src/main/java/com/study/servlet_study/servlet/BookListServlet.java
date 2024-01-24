@@ -48,6 +48,7 @@ public class BookListServlet extends HttpServlet {
 		if(publisherName != null) {
 			params.put("publisherName", publisherName);
 		}
+		
 		List<Book> searchResultBooks = bookService.getSearchBook(params);
 		
 		response.setContentType("text/plain");

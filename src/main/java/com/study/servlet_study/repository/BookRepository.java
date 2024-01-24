@@ -139,7 +139,7 @@ public class BookRepository {
 		
 		try {
 			con = pool.getConnection();
-			String sql = "select * from book_tb where ? = 1";
+			String sql = "select * from book_view where ? = 1";
 			for (String key : params.keySet()) {
 				sql += " or " + keyData.get(key) + " like ?";
 			}
