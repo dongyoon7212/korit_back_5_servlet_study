@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+!**/src/main/java/com/study/servlet_study/config/DBConnectionMgr.java
 
 ### IntelliJ IDEA ###
 .idea/

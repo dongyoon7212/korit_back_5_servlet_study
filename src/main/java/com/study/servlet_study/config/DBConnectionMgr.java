@@ -37,7 +37,6 @@ import java.util.Vector;
  * @author  Anil Hemrajani
  */
 public class DBConnectionMgr {
-
     private Vector connections = new Vector(10);
     private String _driver = "com.mysql.cj.jdbc.Driver",
     _url = "jdbc:mysql://mysql-db.c1hhwbdn7loo.ap-northeast-2.rds.amazonaws.com:3306/db_library",

@@ -2,6 +2,7 @@ package com.study.servlet_study.entity;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Builder
 @Data
@@ -10,4 +11,5 @@ public class Book {
 	private String bookName;
 	private Author author;
 	private Publisher publisher;
+	
 }
